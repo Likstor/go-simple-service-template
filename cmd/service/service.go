@@ -18,7 +18,7 @@ const (
 )
 
 func main() {
-	file, w, err := logs.Setup(context.Background(), "./files/logs/at-backend/")
+	file, w, err := logs.Setup(context.Background(), "./files/logs/service/")
 	if err != nil {
 		return
 	}

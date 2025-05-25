@@ -1,0 +1,25 @@
+services:
+  service:
+    container_name: service
+    tty: true
+    stdin_open: true
+    build:
+      context: ../
+      args:
+        - STORAGE_USER=${STORAGE_USER}
+        - STORAGE_NAME=${STORAGE_NAME}
+        - STORAGE_PORT=${STORAGE_PORT}
+        - STORAGE_PASSWORD=${STORAGE_PASSWORD}
+        - STORAGE_HOST=${STORAGE_HOST}
+      dockerfile: deployment/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+    env_file:
+      - ../configs/.env
+    networks:
+      - at-network
+
+networks:
+  service-network:
+    driver: bridge

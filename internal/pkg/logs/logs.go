@@ -1,7 +1,6 @@
 package logs
 
 import (
-	"service/internal/pkg/common"
 	"bufio"
 	"bytes"
 	"context"
@@ -11,7 +10,9 @@ import (
 	"io"
 	"log/slog"
 	"os"
+	"path/filepath"
 	"runtime"
+	"service/internal/pkg/common"
 	"time"
 )
 
@@ -74,7 +75,16 @@ func getSource(pc uintptr) slog.Attr {
 var op = "logs.Setup"
 
 func Setup(ctx context.Context, logsDir string) (*os.File, *bufio.Writer, error) {
-	if err := os.MkdirAll(logsDir, os.ModeDir); err != nil {
+	abs, err := filepath.Abs(logsDir)
+	if err != nil {
+		Error(
+			ctx,
+			err.Error(),
+			op,
+		)
+	}
+
+	if err := os.MkdirAll(abs, os.ModeDir); err != nil {
 		Error(
 			ctx,
 			err.Error(),

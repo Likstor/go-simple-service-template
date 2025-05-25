@@ -42,7 +42,6 @@ func defError(ctx context.Context, key string, def any) {
 	logs.Warn(
 		ctx,
 		fmt.Sprintf("An error occurred or the %v environment variable was not found. The default value is %v", key, def),
-		"nil",
 		opCfg,
 	)
 }

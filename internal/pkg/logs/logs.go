@@ -94,7 +94,7 @@ func Setup(ctx context.Context, logsDir string) (*os.File, *bufio.Writer, error)
 		return nil, nil, ErrLoggerSetup
 	}
 
-	file, err := os.OpenFile(fmt.Sprintf("%s%s.log", logsDir, time.Now().String()), os.O_RDWR|os.O_CREATE, 0600)
+	file, err := os.OpenFile(fmt.Sprintf("%s%s.log", abs, time.Now().Format(time.RFC3339)), os.O_RDWR|os.O_CREATE, 0600)
 	if err != nil {
 		Error(
 			ctx,

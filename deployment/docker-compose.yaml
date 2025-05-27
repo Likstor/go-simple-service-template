@@ -14,12 +14,43 @@ services:
       dockerfile: deployment/Dockerfile
     restart: unless-stopped
     ports:
-      - "${BACKEND_PORT}:${BACKEND_PORT}"
+      - "${SERVICE_PORT}:${SERVICE_PORT}"
+    depends_on:
+      postgres:
+        condition: service_healthy
     env_file:
       - ../configs/.env
     networks:
-      - at-network
+      - network
+    volumes:
+      - service-data:/files 
+
+  postgres:
+    container_name: postgres
+    image: postgres:17.5-alpine3.21
+    restart: always
+    environment:
+      POSTGRES_DB: ${STORAGE_NAME}
+      POSTGRES_USER: ${STORAGE_USER}
+      POSTGRES_PASSWORD: ${STORAGE_PASSWORD}
+    volumes:
+      - pg-data:/var/lib/postgresql/data 
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${STORAGE_USER} -d ${STORAGE_NAME}"]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+    networks:
+      - network
+    
+
+volumes:
+  pg-data:
+  service-data:
 
 networks:
-  service-network:
+  network:
     driver: bridge
+  

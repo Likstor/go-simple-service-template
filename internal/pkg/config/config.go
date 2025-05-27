@@ -125,13 +125,13 @@ func GetConfig(ctx context.Context) (*Config, error) {
 		instance = &Config{}
 
 		serverCfg := &instance.Server
-		serverCfg.Host = getEnvAsString(ctx, "BACKEND_HOST", "127.0.0.1")
-		serverCfg.Port = getEnvAsString(ctx, "BACKEND_PORT", "8080")
-		serverCfg.Domain = getEnvAsString(ctx, "BACKEND_DOMAIN", "localhost.com") // need to be added to hosts
-		serverCfg.ReadTimeout = getEnvAsTime(ctx, "BACKEND_READ_TIMEOUT", 250*time.Millisecond)
-		serverCfg.ReadHeaderTimeout = getEnvAsTime(ctx, "BACKEND_READ_HEADER_TIMEOUT", 250*time.Millisecond)
-		serverCfg.WriteTimeout = getEnvAsTime(ctx, "BACKEND_WRITE_TIMEOUT", 1*time.Second)
-		serverCfg.IdleTimeout = getEnvAsTime(ctx, "BACKEND_IDLE_TIMEOUT", 5*time.Minute)
+		serverCfg.Host = getEnvAsString(ctx, "SERVICE_HOST", "127.0.0.1")
+		serverCfg.Port = getEnvAsString(ctx, "SERVICE_PORT", "8080")
+		serverCfg.Domain = getEnvAsString(ctx, "SERVICE_DOMAIN", "localhost.com") // need to be added to hosts
+		serverCfg.ReadTimeout = getEnvAsTime(ctx, "SERVICE_READ_TIMEOUT", 250*time.Millisecond)
+		serverCfg.ReadHeaderTimeout = getEnvAsTime(ctx, "SERVICE_READ_HEADER_TIMEOUT", 250*time.Millisecond)
+		serverCfg.WriteTimeout = getEnvAsTime(ctx, "SERVICE_WRITE_TIMEOUT", 1*time.Second)
+		serverCfg.IdleTimeout = getEnvAsTime(ctx, "SERVICE_IDLE_TIMEOUT", 5*time.Minute)
 
 		storageCfg := &instance.Storage
 		storageCfg.Host = getEnvAsString(ctx, "STORAGE_HOST", "127.0.0.1")

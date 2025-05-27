@@ -11,6 +11,7 @@ RUN GOOS=linux go build -o /migrator ./cmd/migrator/migrator.go
 
 RUN GOOS=linux go build -o /service ./cmd/service/service.go
 
-COPY ./deployment/entrypoint.sh ./entrypoint.sh
-RUN chmod +x ./entrypoint.sh
-ENTRYPOINT ["./entrypoint.sh"]
+RUN sed -i 's/\r$//' /deployment/entrypoint.sh && \
+    chmod +x /deployment/entrypoint.sh
+
+ENTRYPOINT ["/deployment/entrypoint.sh"]

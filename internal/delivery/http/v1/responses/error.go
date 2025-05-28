@@ -9,5 +9,5 @@ func Error(ctx context.Context, w http.ResponseWriter, statusCode int, msg strin
 	resp := make(map[string]any)
 	resp["error"] = msg
 
-	JSON(ctx, w, statusCode, msg)
+	JSON(ctx, w, statusCode, resp)
 }

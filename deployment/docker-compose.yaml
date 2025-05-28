@@ -23,7 +23,7 @@ services:
     networks:
       - network
     volumes:
-      - service-data:/files 
+      - service-data:/service/files 
 
   postgres:
     container_name: postgres

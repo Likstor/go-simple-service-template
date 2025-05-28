@@ -1,17 +1,23 @@
-FROM golang:latest
+FROM golang:latest AS builder
 
-WORKDIR /
+WORKDIR /builder
 
 COPY go.mod ./
 RUN go mod download && go mod verify
 
 COPY . .
 
-RUN GOOS=linux go build -o /migrator ./cmd/migrator/migrator.go
+RUN CGO_ENABLED=0 GOOS=linux go build -o /builder/service ./cmd/service/service.go
 
-RUN GOOS=linux go build -o /service ./cmd/service/service.go
+FROM alpine:latest
 
-RUN sed -i 's/\r$//' /deployment/entrypoint.sh && \
-    chmod +x /deployment/entrypoint.sh
+WORKDIR /service
 
-ENTRYPOINT ["/deployment/entrypoint.sh"]
+COPY --from=builder /builder/service .
+
+COPY deployment/entrypoint.sh .
+
+RUN sed -i 's/\r$//' entrypoint.sh && \
+    chmod +x entrypoint.sh
+
+ENTRYPOINT ["./entrypoint.sh"]

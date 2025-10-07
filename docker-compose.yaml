@@ -4,7 +4,7 @@ services:
     tty: true
     stdin_open: true
     build:
-      context: ../
+      context: ./
       args:
         - STORAGE_USER=${STORAGE_USER}
         - STORAGE_NAME=${STORAGE_NAME}
@@ -19,7 +19,7 @@ services:
       postgres:
         condition: service_healthy
     env_file:
-      - ../configs/.env
+      - ./configs/.env
     networks:
       - network
     volumes:
